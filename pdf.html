@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern MCQ Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #560bad;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+
+        .card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .option-btn {
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .option-btn.selected {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .option-btn.correct {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .option-btn.incorrect {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .progress-bar {
+            height: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: var(--primary);
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: var(--primary);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-4xl mx-auto">
+        <!-- PDF Viewer Header -->
+        <div class="flex justify-between items-center mb-6 p-4 bg-white rounded-lg shadow-sm">
+            <h1 class="text-xl font-semibold text-gray-800">Document.pdf</h1>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <svg class="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <span class="text-sm text-gray-600">Section: 1</span>
+                <span class="text-sm text-gray-600">Page: 1</span>
+            </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="w-full bg-gray-200 rounded-full h-2 mb-6 dark:bg-gray-700">
+            <div id="progress" class="progress-bar bg-blue-500 rounded-full h-2" style="width: 0%"></div>
+        </div>
+
+        <!-- PDF Viewer Container -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
+            <!-- PDF Canvas -->
+            <div class="flex justify-center p-4 bg-gray-50">
+                <div class="w-full max-h-[80vh] bg-white border border-gray-200 rounded-lg shadow-inner overflow-y-auto">
+                    <div id="pdf-container" class="p-4 space-y-4">
+                        <!-- PDF pages will be rendered here as canvas elements -->
+                        <p class="text-gray-400 text-center py-8">PDF content will be rendered here</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation Controls -->
+            <div class="flex justify-center space-x-4 p-4 border-t border-gray-200">
+                <button id="prev-page" class="px-4 py-2 text-gray-600 hover:text-blue-500 transition flex items-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    <span class="sr-only">Previous</span>
+                </button>
+                <span class="text-sm text-gray-500 flex items-center">Scroll to navigate</span>
+                <button id="next-page" class="px-4 py-2 text-gray-600 hover:text-blue-500 transition flex items-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                    <span class="sr-only">Next</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerPrep - Placement Guide Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #2E8B57;
+            --light-bg: #F7F8FA;
+            --gray: #E0E0E0;
+            --dark-text: #333333;
+            --light-text: #666666;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            transition: all 0.3s ease;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .dyslexia-mode {
+            font-family: 'OpenDyslexic', sans-serif;
+            letter-spacing: 0.05em;
+            line-height: 1.8;
+        }
+        
+        .dark-mode {
+            background-color: #121212;
+            color: #f0f0f0;
+        }
+        
+        .dark-mode .card {
+            background-color: #1E1E1E;
+            border-color: #333;
+        }
+        
+        .dark-mode .navbar {
+            background-color: #1E1E1E;
+            border-color: #333;
+        }
+        
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    /* Additional dark mode styles */
+    .dark-mode {
+        background-color: #121212;
+        color: #f0f0f0;
+    }
+    
+    .dark-mode .navbar {
+        background-color: #1E1E1E;
+        border-color: #333;
+    }
+    
+    .dark-mode .card {
+        background-color: #1E1E1E;
+        border-color: #333;
+    }
+    
+    .dark-mode .text-gray-600,
+    .dark-mode .text-gray-500,
+    .dark-mode p,
+    .dark-mode span {
+        color: #ffffff;
+    }
+    
+    .dark-mode .bg-white,
+    .dark-mode .bg-gray-50 {
+        background-color: #1E1E1E;
+    }
+    
+    .dark-mode .category-btn.bg-gray-200 {
+        background-color: #333333;
+        color: #f0f0f0;
+    }
+    
+    .dark-mode .hover\:bg-gray-100:hover {
+        background-color: #333333;
+    }
+    
+    .dark-mode .hover\:bg-gray-300:hover {
+        background-color: #444444;
+    }
+    </style>
+</head>
+<body class="min-h-screen dark-mode">
+    <!-- Navigation -->
+    <nav class="navbar bg-white shadow-sm sticky top-0 z-50 transition-colors duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-graduation-cap text-2xl text-blue-800"></i>
+                <span class="text-xl font-bold text-blue-800">CareerPrep</span>
+            </div>
+            
+            <div class="hidden md:flex space-x-6">
+                <a href="#home" class="nav-link font-medium hover:text-blue-800 transition">Home</a>
+                <a href="#pdf-library" class="nav-link font-medium hover:text-blue-800 transition">PDF Library</a>
+                <a href="#links" class="nav-link font-medium hover:text-blue-800 transition">Useful Links</a>
+                <a href="#tests" class="nav-link font-medium hover:text-blue-800 transition">Practice Tests</a>
+                <a href="#progress" class="nav-link font-medium hover:text-blue-800 transition">My Progress</a>
+                <a href="#help" class="nav-link font-medium hover:text-blue-800 transition">Help Center</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button id="darkModeToggle" class="p-2 rounded-full hover:bg-gray-100 transition dark-mode-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="dyslexiaToggle" class="p-2 rounded-full hover:bg-gray-100 transition">
+                    <i class="fas fa-font"></i>
+                </button>
+                <button class="md:hidden" id="mobileMenuButton">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <button class="hidden md:block bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition">
+                    Sign In
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white shadow-lg absolute w-full left-0 px-4 py-2">
+            <a href="#home" class="block py-2 hover:text-blue-800 transition">Home</a>
+            <a href="#pdf-library" class="block py-2 hover:text-blue-800 transition">PDF Library</a>
+            <a href="#links" class="block py-2 hover:text-blue-800 transition">Useful Links</a>
+            <a href="#tests" class="block py-2 hover:text-blue-800 transition">Practice Tests</a>
+            <a href="#progress" class="block py-2 hover:text-blue-800 transition">My Progress</a>
+            <a href="#help" class="block py-2 hover:text-blue-800 transition">Help Center</a>
+            <button class="w-full bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition mt-2">
+                Sign In
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <!-- <section id="home" class="py-16 px-4 bg-gradient-to-r from-blue-800 to-blue-600 text-white">
+        <div class="container mx-auto flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-8 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Ace Your Campus Placements</h1>
+                <p class="text-xl mb-6">Comprehensive resources, practice tests, and personalized guidance to help you land your dream job.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <button class="bg-white text-blue-800 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition">
+                        Explore Resources <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                    <button class="border-2 border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-800 transition">
+                        Take a Test
+                    </button>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <img src="https://illustrations.popsy.co/amber/digital-nomad.svg" alt="Career Preparation" class="w-full max-w-md">
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Features Section -->
+    <!-- <section class="py-16 px-4 bg-white">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">How CareerPrep Helps You</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-book-open text-blue-800 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Comprehensive Resources</h3>
+                    <p class="text-gray-600">Access hundreds of PDFs, interview guides, and company-specific preparation materials.</p>
+                </div>
+                
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-clipboard-check text-green-800 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Practice Tests</h3>
+                    <p class="text-gray-600">Simulate real placement tests with timed quizzes and detailed performance analytics.</p>
+                </div>
+                
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-line text-purple-800 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Track Progress</h3>
+                    <p class="text-gray-600">Monitor your improvement with detailed reports and personalized recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- PDF Library Section -->
+    <section id="pdf-library" class="py-3 px-4 bg-gray-50">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-8">PDF Library</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">Browse our extensive collection of placement preparation materials organized by category and difficulty level.</p>
+            
+            <div class="flex flex-wrap justify-center mb-8 gap-4">
+                <button class="category-btn px-4 py-2 rounded-full bg-blue-800 text-white">All</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300">Aptitude</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300">Technical</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300">HR</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300">Resume Tips</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300">Company Specific</button>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- PDF Card 1 -->
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-file-pdf text-red-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Aptitude Master Guide</h3>
+                            <p class="text-sm text-gray-500">Difficulty: Medium</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Comprehensive guide covering all aptitude topics with solved examples.</p>
+                    <div class="flex space-x-3">
+                        <button class="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition shadow-md transform hover:-translate-y-1 hover:shadow-lg">
+                            <i class="fas fa-video mr-2"></i> Videos
+                        </button>
+                        <button class="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-cyan-600 transition shadow-md transform hover:-translate-y-1 hover:shadow-lg">
+                            <i class="fas fa-sticky-note mr-2"></i> Notes
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- PDF Card 2 -->
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-file-pdf text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Data Structures Cheat Sheet</h3>
+                            <p class="text-sm text-gray-500">Difficulty: Hard</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Quick reference for all important data structures and algorithms.</p>
+                   
+                    <div class="flex space-x-3">
+                        <button class="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition shadow-md transform hover:-translate-y-1 hover:shadow-lg">
+                            <i class="fas fa-video mr-2"></i> Videos
+                        </button>
+                        
+                        <button class="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-cyan-600 transition shadow-md transform hover:-translate-y-1 hover:shadow-lg">
+                            <i class="fas fa-sticky-note mr-2"></i> Notes
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- PDF Card 3 -->
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-file-pdf text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">HR Interview Questions</h3>
+                            <p class="text-sm text-gray-500">Difficulty: Easy</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Common HR questions with suggested answers and tips.</p>
+                     <br>
+                    <div class="flex space-x-3">
+                        <button class="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition shadow-md transform hover:-translate-y-1 hover:shadow-lg">
+                            <i class="fas fa-video mr-2"></i> Videos
+                        </button>
+                        <button class="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-cyan-600 transition shadow-md transform hover:-translate-y-1 hover:shadow-lg">
+                            <i class="fas fa-sticky-note mr-2"></i> Notes
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- PDF Card 4 -->
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-file-pdf text-purple-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Amazon Placement Guide</h3>
+                            <p class="text-sm text-gray-500">Difficulty: Hard</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Company-specific preparation guide for Amazon placements.</p>
+                    <div class="flex space-x-3">
+                        <button class="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition shadow-md transform hover:-translate-y-1 hover:shadow-lg">
+                            <i class="fas fa-video mr-2"></i> Videos
+                        </button>
+                        <button class="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-cyan-600 transition shadow-md transform hover:-translate-y-1 hover:shadow-lg">
+                            <i class="fas fa-sticky-note mr-2"></i> Notes
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- PDF Card 5 -->
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-file-pdf text-yellow-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Resume Writing Guide</h3>
+                            <p class="text-sm text-gray-500">Difficulty: Easy</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Step-by-step guide to crafting the perfect resume.</p>
+                    <br>
+                    <div class="flex space-x-3">
+                        <button class="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition shadow-md transform hover:-translate-y-1 hover:shadow-lg">
+                            <i class="fas fa-video mr-2"></i> Videos
+                        </button>
+                        <button class="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-cyan-600 transition shadow-md transform hover:-translate-y-1 hover:shadow-lg">
+                            <i class="fas fa-sticky-note mr-2"></i> Notes
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- PDF Card 6 -->
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-file-pdf text-indigo-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Logical Reasoning Practice</h3>
+                            <p class="text-sm text-gray-500">Difficulty: Medium</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">500+ logical reasoning questions with detailed solutions.</p>
+                     <br>
+                    <div class="flex space-x-3">
+                        <button class="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition shadow-md transform hover:-translate-y-1 hover:shadow-lg">
+                            <i class="fas fa-video mr-2"></i> Videos
+                        </button>
+                        <button class="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-cyan-600 transition shadow-md transform hover:-translate-y-1 hover:shadow-lg">
+                            <i class="fas fa-sticky-note mr-2"></i> Notes
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <button class="bg-blue-800 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-900 transition">
+                    View All Resources <i class="fas fa-chevron-down ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Practice Tests Section -->
+    <section id="tests" class="py-16 px-4 bg-white">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-8">Practice Tests</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">Test your knowledge with our simulated placement tests and track your progress over time.</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Featured Test -->
+                <div class="card bg-gradient-to-r from-blue-800 to-blue-600 text-white p-8 rounded-xl shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-14 h-14 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-star text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-sm font-medium bg-white bg-opacity-20 px-3 py-1 rounded-full">Featured</span>
+                            <h3 class="text-xl font-bold mt-1">Full Placement Simulation</h3>
+                        </div>
+                    </div>
+                    <p class="mb-6">Complete 3-hour test covering all sections: Aptitude, Technical, and HR. Simulates real placement process.</p>
+                    <div class="flex flex-wrap gap-4 mb-6">
+                        <div class="flex items-center">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span>180 minutes</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-question-circle mr-2"></i>
+                            <span>100 questions</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-users mr-2"></i>
+                            <span>5,000+ attempts</span>
+                        </div>
+                    </div>
+                    <button class="bg-white text-blue-800 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition">
+                        Start Test <i class="fas fa-play ml-2"></i>
+                    </button>
+                </div>
+                
+                <!-- Live Quiz -->
+                <div class="card bg-gradient-to-r from-purple-600 to-purple-800 text-white p-8 rounded-xl shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-14 h-14 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-bolt text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-sm font-medium bg-white bg-opacity-20 px-3 py-1 rounded-full">Live</span>
+                            <h3 class="text-xl font-bold mt-1">Daily Challenge Quiz</h3>
+                        </div>
+                    </div>
+                    <p class="mb-6">Compete with other students in real-time! Next quiz starts in <span id="quizCountdown" class="font-bold">15:32</span>.</p>
+                    <div class="flex flex-wrap gap-4 mb-6">
+                        <div class="flex items-center">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span>20 minutes</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-question-circle mr-2"></i>
+                            <span>30 questions</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-trophy mr-2"></i>
+                            <span>Prizes for top 3</span>
+                        </div>
+                    </div>
+                    <button class="bg-white text-purple-800 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition">
+                        Join Waiting List <i class="fas fa-user-plus ml-2"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <h3 class="text-2xl font-bold mb-6">Browse Tests by Category</h3>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Test Card 1 -->
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-calculator text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Quantitative Aptitude</h3>
+                            <p class="text-sm text-gray-500">15 tests available</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Tests covering arithmetic, algebra, geometry, and data interpretation.</p>
+                    <button class="w-full bg-blue-100 text-blue-800 px-4 py-2 rounded-lg font-medium hover:bg-blue-200 transition">
+                        View Tests <i class="fas fa-chevron-right ml-2"></i>
+                    </button>
+                </div>
+                
+                <!-- Test Card 2 -->
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-laptop-code text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Technical (CS/IT)</h3>
+                            <p class="text-sm text-gray-500">22 tests available</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Programming, data structures, algorithms, DBMS, and computer networks.</p>
+                    <button class="w-full bg-green-100 text-green-800 px-4 py-2 rounded-lg font-medium hover:bg-green-200 transition">
+                        View Tests <i class="fas fa-chevron-right ml-2"></i>
+                    </button>
+                </div>
+                
+                <!-- Test Card 3 -->
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-brain text-purple-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Logical Reasoning</h3>
+                            <p class="text-sm text-gray-500">10 tests available</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Pattern recognition, series completion, and analytical reasoning.</p>
+                    <button class="w-full bg-purple-100 text-purple-800 px-4 py-2 rounded-lg font-medium hover:bg-purple-200 transition">
+                        View Tests <i class="fas fa-chevron-right ml-2"></i>
+                    </button>
+                </div>
+                
+                <!-- Test Card 4 -->
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-building text-red-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Company Specific</h3>
+                            <p class="text-sm text-gray-500">8 companies</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Tests tailored to specific companies' placement patterns.</p>
+                    <button class="w-full bg-red-100 text-red-800 px-4 py-2 rounded-lg font-medium hover:bg-red-200 transition">
+                        View Tests <i class="fas fa-chevron-right ml-2"></i>
+                    </button>
+                </div>
+                
+                <!-- Test Card 5 -->
+                <div class="card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-comments text-yellow-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Verbal Ability</h3>
+                            <p class="text-sm text-gray-500">12 tests available</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Reading comprehension, grammar, and vocabulary tests.</p>
+                    <button class="w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-200 transition">
+                        View Tests <i class="fas fa-chevron-right ml-2"></i>
+                    </button>
+                </div>
+                
+                <!-- Test Card 6 -->
+               
+<script>
+    // Dark mode toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const dyslexiaToggle = document.getElementById('dyslexiaToggle');
+        const body = document.body;
+        
+        // Check for saved theme preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            body.classList.remove('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+        
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', function() {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('darkMode', 'disabled');
+            } else {
+                body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('darkMode', 'enabled');
+            }
+        });
+        
+        // Toggle dyslexia mode
+        dyslexiaToggle.addEventListener('click', function() {
+            body.classList.toggle('dyslexia-mode');
+            localStorage.setItem('dyslexiaMode', body.classList.contains('dyslexia-mode') ? 'enabled' : 'disabled');
+        });
+    });
+</script>
+</html>

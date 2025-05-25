@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Programming Languages</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #0f172a;
+      color: white;
+    }
+
+    h1 {
+      color: white;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background-color: #1e293b;
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      background-color: #334155;
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 28px;
+      height: 28px;
+    }
+
+    .card span {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #f1f5f9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Popular Programming Languages</h1>
+  <div class="container" id="languageContainer"></div>
+
+  <script>
+    const languages = [
+      { name: "Python", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+      { name: "ES6", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+      { name: "TypeScript", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+      { name: "React.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+      { name: "Java", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
+      { name: "C#", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" },
+      { name: "C++", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
+      { name: "Kotlin", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" },
+      { name: "Flutter", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" },
+      { name: "Dart", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg" },
+      { name: "Express", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" },
+      { name: "PHP", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" },
+      { name: "Swift", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" },
+      { name: "MATLAB", logo: "https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png" },
+      { name: "HTML", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+      { name: "LaTeX", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/latex/latex-original.svg" },
+      { name: "C", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" },
+      { name: "EJS", logo: "https://www.vectorlogo.zone/logos/nodejs/nodejs-icon.svg" },
+      { name: "Kubernetes", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" },
+      { name: "JSON", logo: "https://cdn-icons-png.flaticon.com/512/136/136525.png" },
+      { name: "GraphQL", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" }
+    ];
+
+
+
+
+    const container = document.getElementById("languageContainer");
+    languages.forEach(lang => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `<img src="${lang.logo}" alt="${lang.name} logo" /><span>${lang.name}</span>`;
+      container.appendChild(div);
+    });
+  </script>
+</body>
+</html>

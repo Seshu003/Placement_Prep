@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dark PDF Viewer</title>
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/build/pdf.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #1f1f1f;
+      border-radius: 10px;
+      margin: 20px;
+    }
+
+    .pdf-title {
+      font-weight: bold;
+      font-size: 20px;
+      color: #ffffff;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background-color: #2c2c2c;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 6px 10px;
+    }
+
+    .search-box::before {
+      margin-right: 6px;
+      color: #aaa;
+    }
+
+    .search-box input {
+      background: transparent;
+      border: none;
+      color: #eee;
+      outline: none;
+      width: 120px;
+    }
+
+    .label {
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    #pdf-viewer {
+      overflow-y: auto;
+      height: calc(100vh - 150px);
+      padding: 0 40px 80px;
+    }
+
+    canvas {
+      display: block;
+      margin: 20px auto;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #1f1f1f;
+      color: #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 60px;
+      border-top: 1px solid #333;
+      gap: 30px;
+      font-size: 16px;
+    }
+
+    .nav-button {
+      background: transparent;
+      border: none;
+      color: #aaa;
+      cursor: pointer;
+      font-size: 20px;
+      transition: color 0.2s;
+    }
+
+    .nav-button:hover {
+      color: #ffffff;
+    }
+
+    .zoom-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: #2c2c2c;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 4px 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      }
+
+      .zoom-controls button {
+        background-color: #3b3b3b;
+        color: #fff;
+        border: none;
+        padding: 6px 10px;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s ease;
+      }
+
+      .zoom-controls button:hover {
+        background-color: #4f4f4f;
+      }
+
+      .zoom-controls button:active {
+        transform: scale(0.95);
+      }
+
+      .zoom-controls i {
+        pointer-events: none;
+      }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .search-box input {
+        width: 100px;
+      }
+
+      #pdf-viewer {
+        padding: 0 20px 80px;
+      }
+
+
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="pdf-title">Document.pdf</div>
+    <div class="controls">
+      <div class="zoom-controls">
+        <button id="zoomOut" title="Zoom Out">
+          <i class="fa-solid fa-magnifying-glass-minus"></i>
+        </button>
+        <button id="zoomIn" title="Zoom In">
+          <i class="fa-solid fa-magnifying-glass-plus"></i>
+        </button>
+      </div>
+
+
+      <div class="search-box">
+        <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="20" height="15">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.14-5.49a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z" />
+      </svg>
+        <input type="text" placeholder="Search..." />
+      </div>
+      <div class="label" id="section-label">Section: 1</div>
+      <div class="label" id="page-label">Page: 1</div>
+    </div>
+  </header>
+
+  <div id="pdf-viewer">
+    <!-- Canvases will be appended here -->
+  </div>
+
+  <div class="bottom-bar">
+    <button class="nav-button" onclick="scrollToTop()">⟵</button>
+    <span>Scroll to navigate</span>
+    <button class="nav-button" onclick="scrollToBottom()">⟶</button>
+  </div>
+
+  <script>
+
+    let scale = 1.5; // initial zoom scale
+    const pdfContainer = document.getElementById('pdf-viewer');
+
+    const pdfUrl = "https://raw.githubusercontent.com/chaharnishant11/PlacementPrepGuide/main/OOPS/Scan%202%20Aug%202020.pdf";
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/build/pdf.worker.min.js';
+
+    const viewer = document.getElementById('pdf-viewer');
+    const sectionLabel = document.getElementById('section-label');
+    const pageLabel = document.getElementById('page-label');
+
+    const SECTION_SIZE = 5;
+    let totalPages = 0;
+
+    pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
+      totalPages = pdf.numPages;
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        pdf.getPage(pageNum).then(page => {
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          const viewport = page.getViewport({ scale: 1.5 });
+
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          canvas.style.margin = '20px auto';
+          canvas.dataset.pageNumber = pageNum;
+
+          page.render({ canvasContext: context, viewport: viewport });
+
+          canvas.onclick = () => {
+            pageLabel.textContent = `Page: ${pageNum}`;
+            sectionLabel.textContent = `Section: ${Math.ceil(pageNum / SECTION_SIZE)}`;
+          };
+
+          viewer.appendChild(canvas);
+        });
+      }
+    }).catch(err => {
+      viewer.innerHTML = `<p style="color:red;">Failed to load PDF: ${err.message}</p>`;
+    });
+
+    function scrollToTop() {
+      viewer.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+    }
+
+    function scrollToBottom() {
+      viewer.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+    }
+
+    function rerenderPDF(scaleValue) {
+      scale = scaleValue;
+      pdfContainer.innerHTML = ''; // clear current canvas
+      pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+          pdf.getPage(pageNum).then(page => {
+            const viewport = page.getViewport({ scale });
+            const canvas = document.createElement('canvas');
+            canvas.dataset.pageNumber = pageNum;
+
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            const context = canvas.getContext('2d');
+
+            page.render({ canvasContext: context, viewport });
+            pdfContainer.appendChild(canvas);
+          });
+        }
+      });
+    }
+
+document.getElementById('zoomIn').addEventListener('click', () => {
+  if (scale < 3) rerenderPDF(scale + 0.25);
+});
+
+document.getElementById('zoomOut').addEventListener('click', () => {
+  if (scale > 0.5) rerenderPDF(scale - 0.25);
+});
+
+    // Track canvas positions and update Page/Section labels
+    // if not removed yet
+
+      function updatePageInfoOnScroll() {
+        const canvases = document.querySelectorAll('#pdf-viewer canvas');
+        let closest = null;
+        let minDist = Infinity;
+
+        canvases.forEach((canvas, index) => {
+          const rect = canvas.getBoundingClientRect();
+          const dist = Math.abs(rect.top - 100); // 100px from top
+          if (dist < minDist) {
+            minDist = dist;
+            closest = canvas;
+          }
+        });
+
+        if (closest) {
+          const currentPage = parseInt(closest.dataset.pageNumber);
+          const section = Math.ceil(currentPage / SECTION_SIZE); // Optional
+          pageLabel.textContent = `Page: ${currentPage}`;
+          sectionLabel.textContent = `Section: ${section}`;
+        }
+      }
+
+      document.getElementById('pdf-viewer').addEventListener('scroll', updatePageInfoOnScroll);
+      window.addEventListener('scroll', updatePageInfoOnScroll); // optional fallback
+
+  </script>
+</body>
+</html>
